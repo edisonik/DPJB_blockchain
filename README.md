@@ -3,4 +3,6 @@
 Edison Ishikawa
 ### Desenvolvedores
 Bruno Couto Marino (190011106)
+
+
 Luiza de Araújo Nunes Gomes (190112794)
