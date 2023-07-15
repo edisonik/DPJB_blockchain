@@ -9,3 +9,5 @@ Luiza de Araújo Nunes Gomes (190112794)
 
 
 Eduardo Xavier Dantas (190086530)
+
+Carlos Eduardo de Carvalho Veras (222012729)
