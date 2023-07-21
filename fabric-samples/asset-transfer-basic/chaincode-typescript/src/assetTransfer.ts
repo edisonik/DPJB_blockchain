@@ -6,6 +6,7 @@ import {Context, Contract, Info, Returns, Transaction} from 'fabric-contract-api
 import stringify from 'json-stringify-deterministic';
 import sortKeysRecursive from 'sort-keys-recursive';
 import {Asset} from './asset';
+import { link } from 'fs';
 
 @Info({title: 'AssetTransfer', description: 'Smart contract for trading assets'})
 export class AssetTransferContract extends Contract {
@@ -14,48 +15,62 @@ export class AssetTransferContract extends Contract {
     public async InitLedger(ctx: Context): Promise<void> {
         const assets: Asset[] = [
             {
-                ID: 'asset1',
-                Color: 'blue',
-                Size: 5,
-                Owner: 'Tomoko',
-                AppraisedValue: 300,
+                Tipo: 'funcionário',
+                ID: 'Funcionario_000001_Inicial',
+                Nome: 'Luiza N Gomes',
+                Responsavel: 1,
+                Estado: 'DF',
+                Link: 'link',
+                Descricao: 'Primeira pessoa logada no DPJB',
+                OrganizacaoResponsavel: null,
+                EmpresaResponsavel: null,
             },
             {
-                ID: 'asset2',
-                Color: 'red',
-                Size: 5,
-                Owner: 'Brad',
-                AppraisedValue: 400,
+                Tipo: 'organização',
+                ID: 'Organizacao_000001_Cadastrada_por_LuizaNGomes',
+                Nome: 'Exemplo',
+                Responsavel: 1,
+                Estado: 'SP',
+                Link: 'link',
+                Descricao: 'Exemplo de Org inicial',
+                OrganizacaoResponsavel: null,
+                EmpresaResponsavel: null,
             },
             {
-                ID: 'asset3',
-                Color: 'green',
-                Size: 10,
-                Owner: 'Jin Soo',
-                AppraisedValue: 500,
+                Tipo: 'empresa de mídia',
+                ID: 'Empresa_000001_Cadastrada_por_LuizaNGomes',
+                Nome: 'Galãs Feios',
+                Responsavel: 1,
+                Estado: 'SP',
+                Link: 'link',
+                Descricao: 'Exemplo de Org inicial',
+                OrganizacaoResponsavel: null,
+                EmpresaResponsavel: null,
             },
             {
-                ID: 'asset4',
-                Color: 'yellow',
-                Size: 10,
-                Owner: 'Max',
-                AppraisedValue: 600,
+                Tipo: 'jornalista',
+                ID: 'Jornalista_000001_Nome_HelderMaldonado_Currículo_<link>_Cadastrado_por_LuizaNGomes',
+                Nome: 'Helder Maldonado',
+                Responsavel: 1,
+                Estado: 'SP',
+                Link: 'link',
+                Descricao: 'Jornalista do canal Galãs Feios',
+                OrganizacaoResponsavel: 'Exemplo',
+                EmpresaResponsavel: 'Empresa_000001_Cadastrada_por_LuizaNGomes',
             },
             {
-                ID: 'asset5',
-                Color: 'black',
-                Size: 15,
-                Owner: 'Adriana',
-                AppraisedValue: 700,
-            },
-            {
-                ID: 'asset6',
-                Color: 'white',
-                Size: 15,
-                Owner: 'Michel',
-                AppraisedValue: 800,
+                Tipo: 'obra',
+                ID: 'Jornalista_000001_Obra_00000001_Conteudo_<https://youtu.be/iRxwt8n9avo>_Instituicao_000001',
+                Nome: 'Greve em Hollywood faz incel chamar Barbie de feia',
+                Responsavel: 1,
+                Estado: 'DF',
+                Link: 'link',
+                Descricao: 'Margot Robbie, protagonista de Barbie, sinalizou apoio à pausa sindical. O posicionamento dela tem gerado críticas infundadas sobre a beleza da atriz, que partem principalmente de um grupo de incels idosos brasileiros. Helder comenta.',
+                OrganizacaoResponsavel: 'Exemplo',
+                EmpresaResponsavel: 'Empresa_000001_Cadastrada_por_LuizaNGomes',
             },
         ];
+
 
         for (const asset of assets) {
             asset.docType = 'asset';
@@ -70,18 +85,22 @@ export class AssetTransferContract extends Contract {
 
     // CreateAsset issues a new asset to the world state with given details.
     @Transaction()
-    public async CreateAsset(ctx: Context, id: string, color: string, size: number, owner: string, appraisedValue: number): Promise<void> {
+    public async CreateAsset(ctx: Context, tipo: string, id: string, nome: string, responsavel: number, estado: string, link: string, descricao: string, organizacaoResponsavel: string, empresaResponsavel: string): Promise<void> {
         const exists = await this.AssetExists(ctx, id);
         if (exists) {
             throw new Error(`The asset ${id} already exists`);
         }
 
         const asset = {
+            Tipo: tipo,
             ID: id,
-            Color: color,
-            Size: size,
-            Owner: owner,
-            AppraisedValue: appraisedValue,
+            Nome: nome,
+            Responsavel: responsavel,
+            Estado: estado,
+            Link: link,
+            Descricao: descricao,
+            OrganizacaoResponsavel: organizacaoResponsavel,
+            EmpresaResponsavel: empresaResponsavel,
         };
         // we insert data in alphabetic order using 'json-stringify-deterministic' and 'sort-keys-recursive'
         await ctx.stub.putState(id, Buffer.from(stringify(sortKeysRecursive(asset))));
@@ -99,7 +118,7 @@ export class AssetTransferContract extends Contract {
 
     // UpdateAsset updates an existing asset in the world state with provided parameters.
     @Transaction()
-    public async UpdateAsset(ctx: Context, id: string, color: string, size: number, owner: string, appraisedValue: number): Promise<void> {
+    public async UpdateAsset(ctx: Context, tipo: string, id: string, nome: string, responsavel: number, estado: string, link: string, descricao: string, organizacaoResponsavel: string, empresaResponsavel: string): Promise<void> {
         const exists = await this.AssetExists(ctx, id);
         if (!exists) {
             throw new Error(`The asset ${id} does not exist`);
@@ -107,11 +126,15 @@ export class AssetTransferContract extends Contract {
 
         // overwriting original asset with new asset
         const updatedAsset = {
+            Tipo: tipo,
             ID: id,
-            Color: color,
-            Size: size,
-            Owner: owner,
-            AppraisedValue: appraisedValue,
+            Nome: nome,
+            Responsavel: responsavel,
+            Estado: estado,
+            Link: link,
+            Descricao: descricao,
+            OrganizacaoResponsavel: organizacaoResponsavel,
+            EmpresaResponsavel: empresaResponsavel,
         };
         // we insert data in alphabetic order using 'json-stringify-deterministic' and 'sort-keys-recursive'
         return ctx.stub.putState(id, Buffer.from(stringify(sortKeysRecursive(updatedAsset))));

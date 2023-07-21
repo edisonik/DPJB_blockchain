@@ -2,8 +2,6 @@
   SPDX-License-Identifier: Apache-2.0
 */
 
-import {Object, Property} from 'fabric-contract-api';
-
 // Exemplo de dados para serem adicionados à BlockChain
 // 
 // Tipo : 'jornalista' | 'organização' | 'empresa de mídia' | 'funcionário' | 'Obra'
@@ -16,24 +14,37 @@ import {Object, Property} from 'fabric-contract-api';
 // Organização Responsável ?: string (id da organização)
 // Empresa Responsável ?: string (id da organização) 
 
+import {Object, Property} from 'fabric-contract-api';
 
 @Object()
 export class Asset {
     @Property()
     public docType?: string;
+    
+    @Property()
+    public Tipo: string;
 
     @Property()
     public ID: string;
 
     @Property()
-    public Color: string;
+    public Nome: string;
 
     @Property()
-    public Size: number;
+    public Responsavel: number;
 
     @Property()
-    public Owner: string;
+    public Estado: string;
 
     @Property()
-    public AppraisedValue: number;
+    public Link?: string;
+
+    @Property()
+    public Descricao?: string;
+
+    @Property()
+    public OrganizacaoResponsavel?: string;
+
+    @Property()
+    public EmpresaResponsavel?: string;
 }
