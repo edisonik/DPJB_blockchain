@@ -147,15 +147,20 @@ async function getAllAssets(contract: Contract): Promise<void> {
  * Submit a transaction synchronously, blocking until it has been committed to the ledger.
  */
 async function createAsset(contract: Contract): Promise<void> {
-    console.log('\n--> Submit Transaction: CreateAsset, creates new asset with ID, Color, Size, Owner and AppraisedValue arguments');
+    console.log('\n--> Submit Transaction: CreateAsset, creates new asset with Tipo, ID, Nome, Responsavel, Estado, Link, Descricao, OrganizacaoResponsavel and EmpresaResponsavel arguments');
 
     await contract.submitTransaction(
         'CreateAsset',
+        'jornalista',
         assetId,
-        'yellow',
-        '5',
-        'Tom',
-        '1300',
+        'Marco Bezzi',
+        '1',
+        'SP',
+        'null',
+        'Jornalista em Galãs Feios',
+        'null',
+        'Exemplo',
+        'Galãs Feios',
     );
 
     console.log('*** Transaction committed successfully');
@@ -171,9 +176,9 @@ async function transferAssetAsync(contract: Contract): Promise<void> {
     const commit = await contract.submitAsync('TransferAsset', {
         arguments: [assetId, 'Saptha'],
     });
-    const oldOwner = utf8Decoder.decode(commit.getResult());
+    const oldResponsavel = utf8Decoder.decode(commit.getResult());
 
-    console.log(`*** Successfully submitted transaction to transfer ownership from ${oldOwner} to Saptha`);
+    console.log(`*** Successfully submitted transaction to transfer ownership from ${oldResponsavel} to Saptha`);
     console.log('*** Waiting for transaction commit');
 
     const status = await commit.getStatus();
@@ -205,6 +210,9 @@ async function updateNonExistentAsset(contract: Contract): Promise<void>{
             'UpdateAsset',
             'asset70',
             'blue',
+            '5',
+            'Tomoko',
+            '300',
             '5',
             'Tomoko',
             '300',
