@@ -2,12 +2,12 @@
 ### Professor
 Edison Ishikawa
 ### Desenvolvedores
+Antônio vinicius de Moura Rodrigues (190084502)
+
 Bruno Couto Marino (190011106)
 
-
-Luiza de Araújo Nunes Gomes (190112794)
-
+Carlos Eduardo de Carvalho Veras (222012729)
 
 Eduardo Xavier Dantas (190086530)
 
-Carlos Eduardo de Carvalho Veras (222012729)
+Luiza de Araújo Nunes Gomes (190112794)
